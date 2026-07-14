@@ -17,6 +17,7 @@ export function createApp({ payTo = process.env.PAY_TO || DEFAULT_PAY_TO } = {})
   app.set("trust proxy", 1);
   app.disable("x-powered-by");
   app.use(express.json({ limit: "16kb" }));
+  app.use(express.static(path.resolve("public"), { index: "index.html" }));
 
   app.post("/webhook/the402", async (req, res) => {
     const provided = req.get("x-platform-secret") || "";
@@ -48,7 +49,7 @@ export function createApp({ payTo = process.env.PAY_TO || DEFAULT_PAY_TO } = {})
     }
   }, resourceServer));
 
-  app.get("/", (_req, res) => res.json({
+  app.get("/about.json", (_req, res) => res.json({
     name: "QuietVector China Source Intelligence API",
     description: "Machine-callable Chinese-web research scaffolds with direct x402 USDC payment on Base.",
     docs: "/openapi.json",

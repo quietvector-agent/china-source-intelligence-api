@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Evidence Lens — China source research, made auditable</title>
+    <meta name="description" content="A small x402 developer tool that turns a China-related research topic into a source-first Mandarin query plan." />
+    <style>
+      :root { color-scheme: dark; --ink:#ecf3ff; --muted:#a4b6ce; --line:#29405d; --accent:#8ce4c7; --surface:#101a29; --paper:#07101d; }
+      * { box-sizing:border-box; } body { margin:0; font:16px/1.5 ui-sans-serif,system-ui,sans-serif; background:radial-gradient(circle at 15% 0,#17395b 0,transparent 34rem),var(--paper); color:var(--ink); }
+      main { max-width:1040px; margin:auto; padding:5rem 1.4rem 4rem; } .eyebrow { color:var(--accent); text-transform:uppercase; font-size:.78rem; letter-spacing:.13em; font-weight:700; }
+      h1 { font-size:clamp(2.6rem,6vw,5.4rem); line-height:.96; max-width:900px; letter-spacing:-.055em; margin:.65rem 0 1.2rem; } .lead { max-width:690px; color:var(--muted); font-size:1.15rem; }
+      .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(235px,1fr)); gap:1rem; margin:3rem 0; } .card { border:1px solid var(--line); border-radius:16px; background:color-mix(in srgb,var(--surface) 88%,transparent); padding:1.2rem; } h2 { margin:.1rem 0 .65rem; font-size:1.1rem; } .price { font-size:2rem; color:var(--accent); font-weight:750; }
+      form { display:grid; gap:.8rem; margin-top:1rem; } label { font-weight:650; } textarea { width:100%; min-height:105px; border-radius:12px; border:1px solid var(--line); background:#07101d; color:var(--ink); padding:.85rem; font:inherit; } button { justify-self:start; background:var(--accent); color:#04251f; border:0; border-radius:999px; padding:.7rem 1rem; font-weight:750; cursor:pointer; } pre { display:none; white-space:pre-wrap; overflow-wrap:anywhere; border:1px solid var(--line); border-radius:12px; background:#030913; padding:1rem; color:#d9e8fc; max-height:34rem; overflow:auto; } .note { color:var(--muted); font-size:.9rem; } a { color:var(--accent); } footer { color:var(--muted); font-size:.9rem; margin-top:4rem; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="eyebrow">QuietVector / Build Week 2026</div>
+      <h1>China research that shows its work.</h1>
+      <p class="lead">Evidence Lens is a tiny developer tool for the hard first ten minutes of China-market diligence: it produces Mandarin search language, primary-source targets, translation traps, and a verification sequence instead of an unverifiable summary.</p>
+      <section class="grid" aria-label="Capabilities">
+        <article class="card"><h2>Query plan</h2><div class="price">$0.05</div><p>Topic-specific Mandarin query groups, official domains, and a bounded research sequence.</p></article>
+        <article class="card"><h2>Evidence bundle</h2><div class="price">$0.50</div><p>A cited starter on the 2025 rare-earth export-control regime, with scope limits made explicit.</p></article>
+        <article class="card"><h2>Machine-native</h2><p>Standard HTTP, OpenAPI 3.1, and x402 payment challenges. No account, API key, subscription, or opaque credit meter.</p></article>
+      </section>
+      <section class="card">
+        <h2>Try the live query-plan endpoint</h2>
+        <p class="note">This performs a normal unpaid request. A payment-capable client receives an x402 challenge; the preview below shows the challenge rather than silently charging anything.</p>
+        <form id="plan-form"><label for="topic">China-related research topic</label><textarea id="topic" minlength="1" maxlength="160">BYD battery safety</textarea><button type="submit">Request a query plan</button></form>
+        <pre id="result" aria-live="polite"></pre>
+      </section>
+      <section class="grid"><article class="card"><h2>Run locally</h2><p><code>npm install</code><br><code>npm test</code><br><code>npm start</code></p></article><article class="card"><h2>Audit the contract</h2><p><a href="/openapi.json">OpenAPI document</a><br><a href="/health">Health check</a><br><a href="https://github.com/quietvector-agent/china-source-intelligence-api">Source repository</a></p></article></section>
+      <footer>Built with Codex and GPT-5.6 for OpenAI Build Week. The tool deliberately separates verified source paths from conclusions that still need human or agent scrutiny.</footer>
+    </main>
+    <script>
+      const form=document.querySelector('#plan-form'), topic=document.querySelector('#topic'), result=document.querySelector('#result');
+      form.addEventListener('submit',async(event)=>{ event.preventDefault(); result.style.display='block'; result.textContent='Requesting payment-aware endpoint…'; try { const response=await fetch('/v1/query-plan',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({topic:topic.value})}); const body=await response.text(); result.textContent=`HTTP ${response.status} ${response.statusText}\n\n${body}`; } catch(error) { result.textContent=`Request failed: ${error.message}`; } });
+    </script>
+  </body>
+</html>
