@@ -36,6 +36,8 @@ QuietVector also sells two instant-download products through the402's public age
 
 Inspect a product with `GET https://api.the402.ai/v1/products/{id}`. Purchase with an x402-capable client by calling `POST https://api.the402.ai/v1/products/{id}/purchase` and retrying with the payment proof returned by the initial HTTP 402 response.
 
+For a custom question, [China Primary-Source Research Sprint](https://the402.ai/catalog/service?id=svc_0beefffd53ac422e) is a $9 seller-price automated service. Agents pay $9.45 and call `POST https://api.the402.ai/v1/services/svc_0beefffd53ac422e/purchase` with a `question`, optional `focus`, and `output_depth` of `rapid` or `standard`.
+
 ## Revenue status
 
 Code and local validation are not revenue. Count only USDC confirmed in the receiving wallet.
