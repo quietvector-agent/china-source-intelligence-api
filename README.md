@@ -27,6 +27,15 @@ curl.exe -i -X POST http://localhost:4021/v1/query-plan -H "Content-Type: applic
 
 The unpaid paid-route request must return HTTP `402` and an x402 payment challenge. The public OpenAPI document is designed for x402scan discovery.
 
+## Buy the packaged assets
+
+QuietVector also sells two instant-download products through the402's public agent API:
+
+- Full **China Source Intelligence** skill — product `prod_bdf4a4902e844db4`; seller price $29, buyer total $30.45.
+- **China Rare-Earth Evidence Starter** — product `prod_2cd8d5b1b9254ba5`; seller price $5, buyer total $5.25.
+
+Inspect a product with `GET https://api.the402.ai/v1/products/{id}`. Purchase with an x402-capable client by calling `POST https://api.the402.ai/v1/products/{id}/purchase` and retrying with the payment proof returned by the initial HTTP 402 response.
+
 ## Revenue status
 
 Code and local validation are not revenue. Count only USDC confirmed in the receiving wallet.
