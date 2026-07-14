@@ -11,6 +11,7 @@ const NETWORK = process.env.X402_NETWORK || "eip155:8453";
 
 export function createApp({ payTo = process.env.PAY_TO || DEFAULT_PAY_TO } = {}) {
   const app = express();
+  app.set("trust proxy", 1);
   app.disable("x-powered-by");
   app.use(express.json({ limit: "16kb" }));
 
