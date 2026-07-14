@@ -1,4 +1,7 @@
 import express from "express";
+import { timingSafeEqual } from "node:crypto";
+import { appendFile } from "node:fs/promises";
+import path from "node:path";
 import { paymentMiddleware, x402ResourceServer } from "@x402/express";
 import { ExactEvmScheme } from "@x402/evm/exact/server";
 import { HTTPFacilitatorClient } from "@x402/core/server";
@@ -14,6 +17,19 @@ export function createApp({ payTo = process.env.PAY_TO || DEFAULT_PAY_TO } = {})
   app.set("trust proxy", 1);
   app.disable("x-powered-by");
   app.use(express.json({ limit: "16kb" }));
+
+  app.post("/webhook/the402", async (req, res) => {
+    const provided = req.get("x-platform-secret") || "";
+    const accepted = [process.env.THE402_WEBHOOK_SECRET, process.env.THE402_API_KEY]
+      .filter(Boolean);
+    if (!accepted.some((secret) => safeEqual(provided, secret))) {
+      return res.status(401).json({ error: "unauthorized" });
+    }
+
+    const inbox = path.resolve(process.env.THE402_JOB_INBOX || ".runtime/the402-jobs.jsonl");
+    await appendFile(inbox, `${JSON.stringify({ received_at: new Date().toISOString(), payload: req.body })}\n`, "utf8");
+    return res.json({ ok: true });
+  });
 
   const facilitatorClient = new HTTPFacilitatorClient(facilitator);
   const resourceServer = new x402ResourceServer(facilitatorClient)
@@ -52,6 +68,12 @@ export function createApp({ payTo = process.env.PAY_TO || DEFAULT_PAY_TO } = {})
   app.get("/v1/rare-earth-export-controls", (_req, res) => res.json(rareEarthBundle));
 
   return app;
+}
+
+function safeEqual(left, right) {
+  const a = Buffer.from(String(left));
+  const b = Buffer.from(String(right));
+  return a.length === b.length && timingSafeEqual(a, b);
 }
 
 function openApi(req) {
