@@ -41,3 +41,7 @@ For a custom question, [China Primary-Source Research Sprint](https://the402.ai/
 ## Revenue status
 
 Code and local validation are not revenue. Count only USDC confirmed in the receiving wallet.
+
+## OpenAI Build Week
+
+This repository is prepared as the source for the **Evidence Lens** Developer Tools submission. The public product routes, local verification commands, honest Codex/GPT-5.6 disclosure, demo outline, and remaining submission gates are in [BUILD-WEEK-SUBMISSION.md](./BUILD-WEEK-SUBMISSION.md).
